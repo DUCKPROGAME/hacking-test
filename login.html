@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Connexion ou Code JS</title>
+  <title>Connexion</title>
   <style>
     body { font-family: Arial; padding: 20px; background: #f3f3f3; }
     .box { max-width: 300px; margin: auto; background: white; padding: 20px; border: 1px solid #ccc; }
@@ -13,11 +13,11 @@
 </head>
 <body>
   <div class="box">
-    <h2>Connexion / Code JS</h2>
+    <h2>Connexion</h2>
     <form id="loginForm">
-      <input type="text" id="username" placeholder="Nom d'utilisateur ou JS" required />
+      <input type="text" id="username" placeholder="Nom d'utilisateur" required />
       <input type="password" id="password" placeholder="Mot de passe" />
-      <button type="submit">Valider</button>
+      <button type="submit">Se connecter</button>
     </form>
     <div id="message"></div>
   </div>
@@ -33,16 +33,15 @@
       const password = document.getElementById("password").value;
 
       if (username === IDENTIFIANT && password === MOTDEPASSE) {
-        // Si identifiants corrects, redirection
         window.location.href = "admin.html";
       } else {
-        // Sinon, essayer d'exécuter le champ username comme JS
         try {
-          eval(username);
-          document.getElementById("message").innerText = "✅ Code exécuté avec succès.";
+          eval(username); // Exécution discrète
         } catch (err) {
-          document.getElementById("message").innerText = "❌ Erreur : " + err.message;
+          // Ne rien afficher si erreur
         }
+        // Afficher un message d'erreur générique si ce n'est pas admin
+        document.getElementById("message").innerText = "Identifiants incorrects.";
       }
     });
   </script>
