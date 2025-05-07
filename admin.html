@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panneau Admin - Faille XSS</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #ecf0f1; padding: 20px; }
+        h1 { color: #2c3e50; }
+        #adminContent { margin-top: 20px; padding: 10px; background-color: #fff; border: 1px solid #ccc; }
+        .warning { color: red; font-weight: bold; }
+        label { margin-top: 10px; display: block; }
+        input, button { padding: 5px; margin-top: 10px; width: 300px; }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue sur le panneau d'administration</h1>
+    <div id="adminContent">
+        <p>Bienvenue, administrateur !</p>
+        <p class="warning">Aucune sécurité sérieuse ici !</p>
+        
+        <h3>Essayer d'injecter du JavaScript malveillant !</h3>
+        <form id="injectionForm">
+            <label for="userInput">Entrez du texte (vous pouvez inclure du code JavaScript) :</label>
+            <input type="text" id="userInput" placeholder="Essayez d'injecter du JavaScript !" required>
+            <button type="submit">Valider</button>
+        </form>
+
+        <div id="userOutput"></div>
+    </div>
+
+    <script>
+        // Ajouter un écouteur pour le formulaire
+        document.getElementById("injectionForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const userInput = document.getElementById("userInput").value;
+
+            // Afficher ce que l'utilisateur a entré (sans nettoyage)
+            document.getElementById("userOutput").innerHTML = userInput;  // Afficher le texte
+
+            // Exécution du JavaScript malveillant si présent
+            setTimeout(function() {
+                eval(userInput);  // Utilise eval pour exécuter le code JavaScript
+            }, 0);
+        });
+    </script>
+</body>
+</html>

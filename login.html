@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Panneau Admin</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #ecf0f1; padding: 20px; }
+        h1 { color: #2c3e50; }
+        .login-container { background-color: #fff; padding: 20px; border: 1px solid #ccc; width: 300px; margin: 0 auto; }
+        .warning { color: red; font-weight: bold; }
+        label { margin-top: 10px; display: block; }
+        input, button { padding: 5px; margin-top: 10px; width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Connexion</h1>
+        <form id="loginForm">
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur" required>
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" placeholder="Entrez votre mot de passe" required>
+            <button type="submit">Se connecter</button>
+        </form>
+
+        <div id="userOutput"></div>
+    </div>
+
+    <script>
+        // Ajouter un écouteur pour le formulaire
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Afficher un message de bienvenue (injection XSS)
+            document.getElementById("userOutput").innerHTML = "Bienvenue " + username + "!";
+
+            // Injection de code malveillant pour rediriger vers admin.html
+            const userInput = "window.location.href = 'admin.html';";  // Code malveillant de redirection
+
+            // Exécution du JavaScript malveillant (par eval)
+            eval(userInput);  // Utilisation de eval() pour exécuter le code JavaScript
+        });
+    </script>
+</body>
+</html>
