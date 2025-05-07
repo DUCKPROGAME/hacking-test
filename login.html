@@ -13,10 +13,10 @@
 </head>
 <body>
   <div class="box">
-    <h2>Connexion / Exécution de code</h2>
+    <h2>Connexion / Code JS</h2>
     <form id="loginForm">
-      <input type="text" id="username" placeholder="Nom d'utilisateur ou code JS" required />
-      <input type="password" id="password" placeholder="Mot de passe (optionnel)" />
+      <input type="text" id="username" placeholder="Nom d'utilisateur ou JS" required />
+      <input type="password" id="password" placeholder="Mot de passe" />
       <button type="submit">Valider</button>
     </form>
     <div id="message"></div>
@@ -29,21 +29,20 @@
     document.getElementById("loginForm").addEventListener("submit", function(e) {
       e.preventDefault();
 
-      const username = document.getElementById("username").value;
+      const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value;
 
-      // Si identifiants corrects → redirection vers admin.html
       if (username === IDENTIFIANT && password === MOTDEPASSE) {
+        // Si identifiants corrects, redirection
         window.location.href = "admin.html";
-        return;
-      }
-
-      // Sinon → tenter d'exécuter le "nom d'utilisateur" comme code JavaScript
-      try {
-        eval(username); // Exécute le code JS saisi
-        document.getElementById("message").innerText = "Code exécuté avec succès.";
-      } catch (err) {
-        document.getElementById("message").innerText = "Erreur : " + err.message;
+      } else {
+        // Sinon, essayer d'exécuter le champ username comme JS
+        try {
+          eval(username);
+          document.getElementById("message").innerText = "✅ Code exécuté avec succès.";
+        } catch (err) {
+          document.getElementById("message").innerText = "❌ Erreur : " + err.message;
+        }
       }
     });
   </script>
